@@ -3,6 +3,13 @@ from src.Airbnb.pipelines.Prediction_Pipeline import CustomData, PredictPipeline
 
 app = Flask(__name__)
 
+
+def _get_form_value(field_name: str) -> str:
+    value = request.form.get(field_name)
+    if value is None or value == "":
+        raise ValueError(f"Missing required field: {field_name}")
+    return value
+
 # Define the home route
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -10,25 +17,25 @@ def home():
         try:
             # Validate and convert form data to CustomData object
             data = CustomData(
-                property_type=request.form.get("propertytype"),
-                room_type=request.form.get("roomtype"),
-                amenities=(request.form.get("amenties")),
-                accommodates=(request.form.get("accommodates")),
-                bathrooms=(request.form.get("bathrooms")),
-                bed_type=request.form.get("bedtype"),
-                cancellation_policy=request.form.get("canceltype"),
-                cleaning_fee=(request.form.get("clean")),
-                city=request.form.get("city"),
-                host_has_profile_pic=request.form.get("dp"),
-                host_identity_verified=request.form.get("verify"),
-                host_response_rate=request.form.get("hostresponse"),
-                instant_bookable=request.form.get("instbook"),
-                latitude=(request.form.get("lat")),
-                longitude=(request.form.get("long")),
-                number_of_reviews=(request.form.get("review")),
-                review_scores_rating=(request.form.get("overallreview")),
-                bedrooms=(request.form.get("bedrooms")),
-                beds=(request.form.get("beds"))
+                property_type=_get_form_value("property_type"),
+                room_type=_get_form_value("room_type"),
+                amenities=_get_form_value("amenities"),
+                accommodates=_get_form_value("accommodates"),
+                bathrooms=_get_form_value("bathrooms"),
+                bed_type=_get_form_value("bed_type"),
+                cancellation_policy=_get_form_value("cancellation_policy"),
+                cleaning_fee=_get_form_value("cleaning_fee"),
+                city=_get_form_value("city"),
+                host_has_profile_pic=_get_form_value("host_has_profile_pic"),
+                host_identity_verified=_get_form_value("host_identity_verified"),
+                host_response_rate=_get_form_value("host_response_rate"),
+                instant_bookable=_get_form_value("instant_bookable"),
+                latitude=_get_form_value("latitude"),
+                longitude=_get_form_value("longitude"),
+                number_of_reviews=_get_form_value("number_of_reviews"),
+                review_scores_rating=_get_form_value("review_scores_rating"),
+                bedrooms=_get_form_value("bedrooms"),
+                beds=_get_form_value("beds")
             )
 
             final_data = data.get_data_as_dataframe()
@@ -37,7 +44,7 @@ def home():
             predict_pipeline = PredictPipeline()
             pred = predict_pipeline.predict(final_data)
             result = round(pred[0], 2)
-            return render_template("index.html", final_result=result)
+            return render_template("index.html", result=result)
 
         except Exception as e:
             # Handle exceptions gracefully
@@ -46,7 +53,7 @@ def home():
 
     else:
         # Render the initial page
-        return render_template("index.html")
+        return render_template("index.html", result=None)
 
 # Execution begins
 if __name__ == '__main__':

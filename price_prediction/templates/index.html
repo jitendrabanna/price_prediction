@@ -24,9 +24,9 @@
         <div class="form-group">
             <label for="room_type">Room Type:</label>
             <select name="room_type" id="room_type">
-                <option value="Shared Room">Shared Room</option>
-                <option value="Private Room">Private Room</option>
-                <option value="Entire Home/Apt">Entire Home/Apt</option>
+                <option value="Shared room">Shared room</option>
+                <option value="Private room">Private room</option>
+                <option value="Entire home/apt">Entire home/apt</option>
                 <!-- Add more options as needed -->
             </select>
         </div>
@@ -70,19 +70,19 @@
         <div class="form-group">
             <label for="cancellation_policy">Cancellation Policy:</label>
             <select name="cancellation_policy" id="cancellation_policy">
-                <option value="Flexible">Flexible</option>
-                <option value="Moderate">Moderate</option>
-                <option value="Strict">Strict</option>
-                <option value="Super strict">Super strict</option>
-                <option value="Advanced Super Strict">Advanced Super Strict</option>
+                <option value="flexible">Flexible</option>
+                <option value="moderate">Moderate</option>
+                <option value="strict">Strict</option>
+                <option value="super_strict_30">Super Strict 30</option>
+                <option value="super_strict_60">Super Strict 60</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="cleaning_fee">Cleaning Fee:</label>
             <select name="cleaning_fee" id="cleaning_fee">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="True">Yes</option>
+                <option value="False">No</option>
             </select>
         </div>
 
@@ -91,26 +91,26 @@
             <select name="city" id="city">
                 <option value="Boston">Boston</option>
                 <option value="Chicago">Chicago</option>
-                <option value="Washington, D.C.">Washington, D.C.</option>
-                <option value="Los Angeles">Los Angeles</option>
-                <option value="New York">New York</option>
-                <option value="San Francisco">San Francisco</option>
+                <option value="DC">Washington, D.C.</option>
+                <option value="LA">Los Angeles</option>
+                <option value="NYC">New York</option>
+                <option value="SF">San Francisco</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="host_has_profile_pic">Host has Profile Pic?</label>
             <select name="host_has_profile_pic" id="host_has_profile_pic">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="t">Yes</option>
+                <option value="f">No</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="host_identity_verified">Verified Host:</label>
             <select name="host_identity_verified" id="host_identity_verified">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="t">Yes</option>
+                <option value="f">No</option>
             </select>
         </div>
 
@@ -122,8 +122,8 @@
         <div class="form-group">
             <label for="instant_bookable">Instant Booking:</label>
             <select name="instant_bookable" id="instant_bookable">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="t">Yes</option>
+                <option value="f">No</option>
             </select>
         </div>
 
@@ -150,7 +150,9 @@
         <input type="submit" value="Predict Price">
     </form>
     <div id="result">
+        {% if result is not none %}
         <h3>Your Airbnb Room Price will be <span id="finalResult">{{result}}</span></h3>
+        {% endif %}
     </div>
 
 </body>
