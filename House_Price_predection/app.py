@@ -1,11 +1,31 @@
 import pickle
+from pathlib import Path
+
 from flask import Flask,request,app,jsonify,url_for,render_template
 import numpy as np
 import pandas as pd
+import sklearn.metrics._scorer as scorer
+
+
+if not hasattr(scorer, '_passthrough_scorer') and hasattr(scorer, '_PassthroughScorer'):
+    scorer._passthrough_scorer = scorer._PassthroughScorer
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+def load_pickle(file_name):
+    with (BASE_DIR / file_name).open('rb') as file_obj:
+        loaded_object = pickle.load(file_obj)
+
+    if hasattr(loaded_object, 'best_estimator_'):
+        return loaded_object.best_estimator_
+
+    return loaded_object
 
 app = Flask(__name__)
-model = pickle.load(open('housepred.pkl','rb'))
-scaler = pickle.load(open('scaler.pkl','rb'))
+model = load_pickle('housepred.pkl')
+scaler = load_pickle('scaler.pkl')
 
 @app.route('/')
 def home():
